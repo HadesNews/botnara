@@ -35,7 +35,7 @@ Selamat Datang ${name} di *Nara188*! 🃏
 🎰 Slot Online
 🎲 Casino Live
 🏆 Sportsbook
-🕹️ Arcade Game
+🛹 Arcade Game
 
 🎯 *Keunggulan Kami:*
 ✅ Sistem permainan transparan & terpercaya
@@ -83,6 +83,29 @@ bot.onText(/\/menu/, (msg) => {
   bot.sendMessage(chatId, 'Pilih salah satu menu di bawah ini:', keyboard);
 });
 
+bot.onText(/\/promo/, (msg) => {
+  bot.sendMessage(msg.chat.id, '🎁 Promo Hari Ini:\nhttps://t.ly/promonara188');
+});
+
+bot.onText(/\/rtp/, (msg) => {
+  bot.sendMessage(msg.chat.id, '📊 Bocoran Slot Gacor Hari Ini:\nhttps://t.ly/RTPNARA');
+});
+
+bot.onText(/\/apk/, (msg) => {
+  bot.sendMessage(msg.chat.id, '📱 Download APK & Daftar:\nhttps://t.ly/apknara');
+});
+
+bot.onText(/\/help/, (msg) => {
+  bot.sendMessage(msg.chat.id, `
+📋 *Daftar Perintah NARA188:*
+/start - Mulai bot
+/menu - Tampilkan menu
+/promo - Lihat promo
+/rtp - Bocoran slot
+/apk - Unduh APK
+`, { parse_mode: 'Markdown' });
+});
+
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text?.toLowerCase() || '';
@@ -96,10 +119,11 @@ bot.on('message', (msg) => {
     bot.sendMessage(chatId, '🎁 Promo Hari Ini:\nhttps://t.ly/promonara188');
   } else if (text.includes('login') || text.includes('daftar') || text.includes('apk')) {
     bot.sendMessage(chatId, '📱 Download APK & Daftar:\nhttps://t.ly/apknara');
-  } else if (text.startsWith('/') && !['/start', '/menu'].includes(text)) {
-    bot.sendMessage(chatId, 'ℹ️ Perintah tidak dikenali. Coba ketik /menu atau klik tombol yang tersedia.');
+  } else if (text.startsWith('/') && !['/start', '/menu', '/promo', '/apk', '/rtp', '/help'].includes(text)) {
+    bot.sendMessage(chatId, 'ℹ️ Perintah tidak dikenali. Coba ketik /menu atau /help.');
   }
 });
+
 
 
 
