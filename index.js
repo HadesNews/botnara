@@ -5,11 +5,27 @@ const token = '7536290975:AAE8iG5aoJ75NAtmRnWX7ToEj5mrWQtGxow';
 const bot = new TelegramBot(token, { polling: true });
 
 const allowedLang = ['id', 'id-ID'];
+const userFile = 'users.json';
+
+function saveUser(id) {
+  let users = [];
+  if (fs.existsSync(userFile)) {
+    users = JSON.parse(fs.readFileSync(userFile));
+  }
+  if (!users.includes(id)) {
+    users.push(id);
+    fs.writeFileSync(userFile, JSON.stringify(users));
+  }
+}
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const name = msg.from.first_name;
   const lang = msg.from.language_code;
+
+  if (!allowedLang.includes(lang)) return;
+
+  saveUser(chatId);
 
   const welcomeMessage = `
 *Nara188 Admin Bot* 🤖
@@ -69,7 +85,7 @@ bot.onText(/\/menu/, (msg) => {
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
-  const text = msg.text?.toLowerCase();
+  const text = msg.text?.toLowerCase() || '';
   const lang = msg.from.language_code;
 
   if (!allowedLang.includes(lang)) return;
@@ -80,8 +96,11 @@ bot.on('message', (msg) => {
     bot.sendMessage(chatId, '🎁 Promo Hari Ini:\nhttps://t.ly/promonara188');
   } else if (text.includes('login') || text.includes('daftar') || text.includes('apk')) {
     bot.sendMessage(chatId, '📱 Download APK & Daftar:\nhttps://t.ly/apknara');
+  } else if (text.startsWith('/') && !['/start', '/menu'].includes(text)) {
+    bot.sendMessage(chatId, 'ℹ️ Perintah tidak dikenali. Coba ketik /menu atau klik tombol yang tersedia.');
   }
 });
+
 
 
 
