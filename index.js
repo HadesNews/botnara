@@ -4,43 +4,26 @@ const token = '7536290975:AAE8iG5aoJ75NAtmRnWX7ToEj5mrWQtGxow';
 
 const bot = new TelegramBot(token, { polling: true });
 
-const allowedLang = ['id', 'id-ID'];
-const userFile = 'users.json';
-
-function saveUser(id) {
-  let users = [];
-  if (fs.existsSync(userFile)) {
-    users = JSON.parse(fs.readFileSync(userFile));
-  }
-  if (!users.includes(id)) {
-    users.push(id);
-    fs.writeFileSync(userFile, JSON.stringify(users));
-  }
-}
-
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const name = msg.from.first_name;
-  const lang = msg.from.language_code;
-
-  if (!allowedLang.includes(lang)) return;
-
-  saveUser(chatId);
 
   const welcomeMessage = `
 *Nara188 Admin Bot* 🤖
 Selamat Datang ${name} di *Nara188*! 🃏
 
-🌟 *Produk Unggulan:*
+
+🌟Produk Unggulan:
 🎰 Slot Online
 🎲 Casino Live
 🏆 Sportsbook
-🛹 Arcade Game
+🕹️ Arcade Game
 
-🎯 *Keunggulan Kami:*
+🎯 Keunggulan Kami:
 ✅ Sistem permainan transparan & terpercaya
 🎁 Bonus harian dan event eksklusif untuk member
 💬 Layanan pelanggan responsif 24/7
+
 
 Ketik /menu untuk mulai atau pilih tombol di bawah ini untuk akses cepat!
 `;
@@ -49,11 +32,11 @@ Ketik /menu untuk mulai atau pilih tombol di bawah ini untuk akses cepat!
     parse_mode: 'Markdown',
     reply_markup: {
       inline_keyboard: [
-        [{ text: '🔐 Login Sekarang', url: 'https://directnara.one' }],
-        [{ text: '🌐 Link Alternatif', url: 'https://t.ly/loginnara188' }],
+        [{ text: ' Login', url: 'https://directnara.one' }],
+        [{ text: ' Link Alternatif', url: 'https://t.ly/loginnara188' }],
         [
-          { text: '📞 Hubungi CS', url: 'https://t.me/official_nara188' },
-          { text: '👥 Grup Resmi', url: 'https://t.me/Nara188_Group' }
+          { text: '📞 Hubungi CS', url: '@official_nara188' },
+          { text: '👥 Grup Resmi ', url: 'https://t.me/Nara188_Group' }
         ]
       ]
     }
@@ -64,9 +47,6 @@ Ketik /menu untuk mulai atau pilih tombol di bawah ini untuk akses cepat!
 
 bot.onText(/\/menu/, (msg) => {
   const chatId = msg.chat.id;
-  const lang = msg.from.language_code;
-
-  if (!allowedLang.includes(lang)) return;
 
   const keyboard = {
     reply_markup: {
@@ -83,35 +63,9 @@ bot.onText(/\/menu/, (msg) => {
   bot.sendMessage(chatId, 'Pilih salah satu menu di bawah ini:', keyboard);
 });
 
-bot.onText(/\/promo/, (msg) => {
-  bot.sendMessage(msg.chat.id, '🎁 Promo Hari Ini:\nhttps://t.ly/promonara188');
-});
-
-bot.onText(/\/rtp/, (msg) => {
-  bot.sendMessage(msg.chat.id, '📊 Bocoran Slot Gacor Hari Ini:\nhttps://t.ly/RTPNARA');
-});
-
-bot.onText(/\/apk/, (msg) => {
-  bot.sendMessage(msg.chat.id, '📱 Download APK & Daftar:\nhttps://t.ly/apknara');
-});
-
-bot.onText(/\/help/, (msg) => {
-  bot.sendMessage(msg.chat.id, `
-📋 *Daftar Perintah NARA188:*
-/start - Mulai bot
-/menu - Tampilkan menu
-/promo - Lihat promo
-/rtp - Bocoran slot
-/apk - Unduh APK
-`, { parse_mode: 'Markdown' });
-});
-
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
-  const text = msg.text?.toLowerCase() || '';
-  const lang = msg.from.language_code;
-
-  if (!allowedLang.includes(lang)) return;
+  const text = msg.text.toLowerCase();
 
   if (text.includes('bocoran') || text.includes('rtp')) {
     bot.sendMessage(chatId, '📊 Bocoran Slot Gacor Hari Ini:\nhttps://t.ly/RTPNARA');
@@ -119,8 +73,6 @@ bot.on('message', (msg) => {
     bot.sendMessage(chatId, '🎁 Promo Hari Ini:\nhttps://t.ly/promonara188');
   } else if (text.includes('login') || text.includes('daftar') || text.includes('apk')) {
     bot.sendMessage(chatId, '📱 Download APK & Daftar:\nhttps://t.ly/apknara');
-  } else if (text.startsWith('/') && !['/start', '/menu', '/promo', '/apk', '/rtp', '/help'].includes(text)) {
-    bot.sendMessage(chatId, 'ℹ️ Perintah tidak dikenali. Coba ketik /menu atau /help.');
   }
 });
 
