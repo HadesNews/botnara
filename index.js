@@ -35,7 +35,7 @@ Ketik /menu untuk mulai atau pilih tombol di bawah ini untuk akses cepat!
         [{ text: ' Login', url: 'https://directnara.one' }],
         [{ text: ' Link Alternatif', url: 'https://t.ly/loginnara188' }],
         [
-          { text: '📞 Hubungi CS', url: '@official_nara188' },
+          { text: '📞 Hubungi CS', url: 'https://t.me/official_nara188' },
           { text: '👥 Grup Resmi ', url: 'https://t.me/Nara188_Group' }
         ]
       ]
