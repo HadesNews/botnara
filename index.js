@@ -11,11 +11,6 @@ bot.onText(/\/start/, (msg) => {
   const name = msg.from.first_name;
   const lang = msg.from.language_code;
 
-  if (!allowedLang.includes(lang)) {
-    bot.sendMessage(chatId, 'Maaf, bot ini hanya mendukung bahasa Indonesia 🇮🇩');
-    return;
-  }
-
   const welcomeMessage = `
 *Nara188 Admin Bot* 🤖
 Selamat Datang ${name} di *Nara188*! 🃏
